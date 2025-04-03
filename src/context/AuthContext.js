@@ -22,10 +22,27 @@ export function AuthProvider({ children }) {
     return () => subscription.unsubscribe()
   }, [])
 
+  const updateUser = async (data) => {
+    try {
+      const { data: { user: updatedUser }, error } = await supabase.auth.updateUser({
+        data
+      })
+      
+      if (error) throw error
+      
+      // Update the local user state with the new metadata
+      setUser(updatedUser)
+      return { data: updatedUser, error: null }
+    } catch (error) {
+      return { data: null, error }
+    }
+  }
+
   const value = {
     signUp: (data) => supabase.auth.signUp(data),
     signIn: (data) => supabase.auth.signInWithPassword(data),
     signOut: () => supabase.auth.signOut(),
+    updateUser,
     user,
     loading
   }

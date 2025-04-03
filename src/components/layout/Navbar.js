@@ -19,6 +19,7 @@ const Navbar = () => {
           {user ? (
             <>
               <Link to="/chat" className="text-white hover:text-gray-300 px-3 py-2">Chat</Link>
+              <Link to="/profile" className="text-white hover:text-gray-300 px-3 py-2">Profile</Link>
               <button
                 onClick={handleLogout}
                 className="text-white hover:text-gray-300 px-3 py-2"
