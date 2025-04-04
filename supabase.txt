@@ -1,3 +1,17 @@
+create table messages (
+  id uuid default uuid_generate_v4() primary key,
+  sender_id uuid not null,
+  receiver_id uuid not null,
+  message text not null,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+alter table messages enable row level security;
+
+create policy "Users can insert their own messages"
+on messages for insert
+with check (auth.uid() = sender_id);
+
 -- Policy for reading messages (both sender and receiver can read)
 create policy "Users can read their own messages"
 on messages for select
@@ -41,15 +55,6 @@ on messages(sender_id, receiver_id);
 --------------
 create index messages_created_at_idx 
 on messages(created_at desc);
-
-
-
-
-
-
-
-
-
 
 
 
