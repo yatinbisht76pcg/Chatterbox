@@ -93,8 +93,8 @@ REACT_APP_SUPABASE_ANON_KEY=your-anon-key
 From Supabase Auth > Users, create two test users manually.
 
 ```plaintext
-user1@example.com / password123
-user2@example.com / password123
+user1@example.com / 876543210
+user2@example.com / 876543210
 ```
 
 Update your frontend logic to hardcode only these two users.
