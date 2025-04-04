@@ -21,7 +21,7 @@ const ContactList = ({ contacts, selectedContact, onContactSelect }) => {
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 border-r border-gray-300 dark:border-gray-700 flex flex-col h-full">
+    <div className="bg-white dark:bg-gray-800 border-r border-gray-300 dark:border-gray-700 flex flex-col h-full overflow-y-hidden">
       <div className="p-4 border-b border-gray-300 dark:border-gray-700">
         <input
           type="text"
