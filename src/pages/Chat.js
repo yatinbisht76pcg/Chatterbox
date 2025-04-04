@@ -1,22 +1,27 @@
-import React, { useState, useRef, useEffect } from 'react';
-import ContactList from '../components/chat/ContactList';
-import ChatWindow from '../components/chat/ChatWindow';
-import { useContacts } from '../hooks/useContacts';
-import { useSupabaseMessages } from '../hooks/useSupabaseMessages';
-import { useAuth } from '../context/AuthContext';
+import React, { useState, useRef, useEffect } from "react";
+import ContactList from "../components/chat/ContactList";
+import ChatWindow from "../components/chat/ChatWindow";
+import { useContacts } from "../hooks/useContacts";
+import { useSupabaseMessages } from "../hooks/useSupabaseMessages";
+import { useAuth } from "../context/AuthContext";
 
 const Chat = () => {
   const { user } = useAuth();
   const [selectedContact, setSelectedContact] = useState(null);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
   const messagesEndRef = useRef(null);
-  
-  const { contacts, loading: contactsLoading, error: contactsError } = useContacts();
-  const { 
-    messages, 
-    loading: messagesLoading, 
+  const [step, setStep] = useState("contacts");
+
+  const {
+    contacts,
+    loading: contactsLoading,
+    error: contactsError,
+  } = useContacts();
+  const {
+    messages,
+    loading: messagesLoading,
     error: messagesError,
-    sendMessage 
+    sendMessage,
   } = useSupabaseMessages(selectedContact?.id);
 
   // Scroll to bottom when messages change
@@ -26,7 +31,8 @@ const Chat = () => {
 
   const handleContactSelect = (contact) => {
     setSelectedContact(contact);
-    setMessage('');
+    setMessage("");
+    setStep("chat");
   };
 
   const handleSendMessage = async (e) => {
@@ -34,9 +40,9 @@ const Chat = () => {
     if (message.trim() && selectedContact) {
       const result = await sendMessage(message.trim());
       if (result.success) {
-        setMessage('');
+        setMessage("");
       } else {
-        console.error('Failed to send message:', result.error);
+        console.error("Failed to send message:", result.error);
       }
     }
   };
@@ -46,7 +52,7 @@ const Chat = () => {
       <div className="flex h-screen items-center justify-center bg-gray-100">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading contacts...</p>
+          <p className="mt-4 text-gray-600">Loading...</p>
         </div>
       </div>
     );
@@ -64,23 +70,33 @@ const Chat = () => {
 
   return (
     <div className="flex h-screen bg-gray-100 overflow-hidden">
-      <ContactList 
-        contacts={contacts} 
-        selectedContact={selectedContact} 
-        onContactSelect={handleContactSelect} 
-      />
-      <ChatWindow 
-        selectedContact={selectedContact}
-        messages={messages}
-        message={message}
-        setMessage={setMessage}
-        handleSendMessage={handleSendMessage}
-        messagesEndRef={messagesEndRef}
-        loading={messagesLoading}
-        error={messagesError}
-      />
+      <div
+        className={`${
+          step === "contacts" ? "block w-full" : "hidden"
+        } md:block md:w-1/4`}
+      >
+        <ContactList
+          contacts={contacts}
+          selectedContact={selectedContact}
+          onContactSelect={handleContactSelect}
+        />
+      </div>
+
+      <div className={`${step === "chat" ? "block w-full" : "hidden"}`}>
+        <ChatWindow
+          selectedContact={selectedContact}
+          messages={messages}
+          message={message}
+          setMessage={setMessage}
+          handleSendMessage={handleSendMessage}
+          messagesEndRef={messagesEndRef}
+          loading={messagesLoading}
+          error={messagesError}
+          onBack={() => setStep("contacts")}
+        />
+      </div>
     </div>
   );
 };
 
-export default Chat; 
+export default Chat;

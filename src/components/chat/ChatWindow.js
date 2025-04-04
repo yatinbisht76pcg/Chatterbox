@@ -11,23 +11,24 @@ const ChatWindow = ({
   handleSendMessage, 
   messagesEndRef,
   loading,
-  error
+  error,
+  onBack
 }) => {
   return (
     <div className="flex-1 flex flex-col h-full">
       {selectedContact ? (
         <>
-          <ChatHeader contact={selectedContact} />
+          <ChatHeader contact={selectedContact} onBack={onBack} />
           {loading ? (
-            <div className="flex-1 flex items-center justify-center bg-gray-50">
+            <div className="flex-1 flex items-center justify-center bg-gray-50 dark:bg-gray-800">
               <div className="text-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
-                <p className="mt-4 text-gray-600">Loading messages...</p>
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 dark:border-indigo-400 mx-auto"></div>
+                <p className="mt-4 text-gray-600 dark:text-gray-300">Loading messages...</p>
               </div>
             </div>
           ) : error ? (
-            <div className="flex-1 flex items-center justify-center bg-gray-50">
-              <div className="text-center text-red-600">
+            <div className="flex-1 flex items-center justify-center bg-gray-50 dark:bg-gray-800">
+              <div className="text-center text-red-600 dark:text-red-400">
                 <p>Error loading messages: {error}</p>
               </div>
             </div>
@@ -44,8 +45,8 @@ const ChatWindow = ({
           />
         </>
       ) : (
-        <div className="flex-1 flex items-center justify-center bg-gray-50">
-          <p className="text-gray-500 text-lg">Select a contact to start chatting</p>
+        <div className="flex-1 flex items-center justify-center bg-gray-50 dark:bg-gray-800">
+          <p className="text-gray-500 dark:text-gray-400 text-lg">Select a contact to start chatting</p>
         </div>
       )}
     </div>
