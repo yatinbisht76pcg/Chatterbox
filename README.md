@@ -93,8 +93,8 @@ REACT_APP_SUPABASE_ANON_KEY=your-anon-key
 From Supabase Auth > Users, create two test users manually.
 
 ```plaintext
-user1@example.com / 876543210
-user2@example.com / 876543210
+user1@gmail.com / 876543210
+user2@gmail.com / 876543210
 ```
 
 Update your frontend logic to hardcode only these two users.
@@ -111,8 +111,8 @@ npm start
 
 ## 🧪 Testing
 
-- Login as `user1@example.com` in one browser
-- Login as `user2@example.com` in another
+- Login as `user1@gmail.com` in one browser
+- Login as `user2@gmail.com` in another
 - Start chatting — messages appear in real-time!
 
 ---
